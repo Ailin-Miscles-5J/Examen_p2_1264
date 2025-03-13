@@ -1,44 +1,45 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
 class Proveedor {
-  final String idProveedor;
+  final int idProveedor;
   final String telefono;
   final String correo;
+  final String ciudad;
+  final String productoQueVende;
+  final double precio;
 
   Proveedor({
     required this.idProveedor,
     required this.telefono,
     required this.correo,
+    required this.ciudad,
+    required this.productoQueVende,
+    required this.precio,
   });
+}
+
+void main() {
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   final List<Proveedor> proveedores = [
     Proveedor(
-        idProveedor: '001',
-        telefono: '555-1234',
-        correo: 'proveedor1@example.com'),
+      idProveedor: 1,
+      telefono: '555-1234',
+      correo: 'proveedor1@example.com',
+      ciudad: 'Ciudad de México',
+      productoQueVende: 'Producto A',
+      precio: 100.0,
+    ),
     Proveedor(
-        idProveedor: '002',
-        telefono: '555-5678',
-        correo: 'proveedor2@example.com'),
-    Proveedor(
-        idProveedor: '003',
-        telefono: '555-9012',
-        correo: 'proveedor3@example.com'),
-    // Agregar dos proveedores más
-    Proveedor(
-        idProveedor: '004',
-        telefono: '555-3456',
-        correo: 'proveedor4@example.com'),
-    Proveedor(
-        idProveedor: '005',
-        telefono: '555-7890',
-        correo: 'proveedor5@example.com'),
+      idProveedor: 2,
+      telefono: '555-5678',
+      correo: 'proveedor2@example.com',
+      ciudad: 'Guadalajara',
+      productoQueVende: 'Producto B',
+      precio: 150.0,
+    ),
   ];
 
   @override
@@ -52,42 +53,37 @@ class MyApp extends StatelessWidget {
         body: Column(
           children: [
             Expanded(
-              child: ListView.builder(
+              child: ListView.separated(
+                padding: EdgeInsets.all(16),
                 itemCount: proveedores.length,
+                separatorBuilder: (context, index) => Divider(),
                 itemBuilder: (context, index) {
+                  final proveedor = proveedores[index];
                   return Container(
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      color: Colors.blue[50],
+                      color: index % 2 == 0
+                          ? Color(0xfff3bafd)
+                          : Color(0xfff3bafd),
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
+                          color: Colors.black12,
                           blurRadius: 5,
-                          offset: Offset(0, 3),
-                        ),
+                          offset: Offset(0, 2),
+                        )
                       ],
                     ),
+                    padding: EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text('ID: ${proveedor.idProveedor}'),
+                        Text('Teléfono: ${proveedor.telefono}'),
+                        Text('Correo: ${proveedor.correo}'),
+                        Text('Ciudad: ${proveedor.ciudad}'),
+                        Text('Producto: ${proveedor.productoQueVende}'),
                         Text(
-                          'ID Proveedor: ${proveedores[index].idProveedor}',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        Divider(color: Colors.blue),
-                        Text(
-                          'Teléfono: ${proveedores[index].telefono}',
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        Divider(color: Colors.blue),
-                        Text(
-                          'Correo: ${proveedores[index].correo}',
-                          style: TextStyle(fontSize: 14),
-                        ),
+                            'Precio: \$${proveedor.precio.toStringAsFixed(2)}'),
                       ],
                     ),
                   );
@@ -95,11 +91,10 @@ class MyApp extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16),
               child: Text(
                 'Citlali Miscles 1264',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
           ],
